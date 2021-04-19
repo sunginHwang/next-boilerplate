@@ -26,7 +26,7 @@ ssr을 도입함에 있어 가장 최적화가 잘 되어있고 이에따른 사
 날짜에 대한 모든 처리는 `date-fns` 를 통해 처리 하도록 합니다.
 
 ### 기타 util - lodash-es
-최적화 처리를 위해 lodash-es가 아닌 `lodash-es` 를 사용하도록 합니다.
+최적화 처리를 위해 lodash가 아닌 `lodash-es` 를 사용하도록 합니다.
  
 ### 유닛 테스트 - jest, react-testing-library
 util들의 유닛테스트 및 컴포넌트 테스트를 처리하기 위해 사용합니다.
