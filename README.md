@@ -1,9 +1,26 @@
 
-# nextjs 보일러 플레이트 구성
+# nextjs 보일러 플레이트 작성 가이드
+
+## 목차
+- [보일러플레이트의 목적](#보일러플레이트의-목적)
+- [프로젝트 큰 구성 틀](#프로젝트-큰-구성-틀)
+- [typescript](#typescript)
+- [프로젝트 스캐폴딩](#프로젝트-스캐폴딩)
+- [unit테스트 작성](#unit테스트-작성)
+- [컴포넌트 folder 구조 규칙](#컴포넌트-folder-구조-규칙)
+- [컴포넌트 파일 작성 규칙](#컴포넌트-파일-작성-규칙)
+- [컴포넌트 작성 가이드](#컴포넌트-작성-가이드)
+- [redux 작성 가이드](#redux-작성-가이드)
+
+<br/>
+<br/>
 
 ## 보일러플레이트의 목적
 본 프로젝트의 구조는 `비동기 데이터 처리`, `페이징 라우팅`, `전역상태관리` 등의 여러 큰 요소에 있어 최대한 검증되고 사용하는 방법에 있어 **명확한 컨벤션과 관련 문서가 있는 검증된 library들을 조합**하여 다른 프로젝트 구성원이 해당 프로젝트를 처음 보더라도 각 **library들의 공식 문서 참고만으로도 어느정도 프로젝트의 구성과 작성 방법에 대해 통일화 시키는 취지**로 작성되었습니다.
- 
+  
+<br/>
+<br/>
+
 ## 프로젝트 큰 구성 틀
 
 ### typescript
@@ -23,7 +40,6 @@ ssr을 도입함에 있어 가장 최적화가 잘 되어있고 이에따른 사
 ### form 핸들링 - react-hook-form
 회원가입 등 form 에 대한 처리는 따로 state를 구성하지 않고 `react-hook-form` 을 사용하여 처리합니다. **unControlled 이기때문에 성능상의 이점과 input 태그 등에 ref로 붙이는 구조라 태그 커스텀이 편한 장점**이 존재합니다.
  
-
 ### 불변성 관리 - immer
 프로젝트 전반에 걸친 불변성 관리는 immer 라이브러리를 통해 처리하도록 합니다.
 
@@ -62,6 +78,25 @@ export interface IUser {
 }
 ```
 
+
+### array는 [] 로 표기 하도록 합니다.
+프로젝트에서 사용하는 라이브러리의 array 타입선언과의 통일성을 위해 `[]` 로 array타입을 표기하도록 합니다.
+
+```ts
+ 
+// Good
+interface IProps {
+    arr: IButton[];
+}
+ 
+// Bad
+interface IProps {
+    arr: Array<IButton>;
+}
+```
+
+
+
 ### 공통 타입들은 models에 작성합니다.
 **프로젝트에서 여러곳에서 사용되는 타입의 경우 models 폴더에서 서비스 도메인 단위로 구성**합니다. 이때 apis 함수의 requestParam 등 공통영역, util영역의 requestParam 등 해당 영역에 관심사가 있는 경우의 타입은 해당 파일 위치에서 선언후 export 하도록 합니다. 
 
@@ -85,6 +120,7 @@ project
 │   │   ├── molecules  # atom을 조합한 컴포넌트 영역입니다. presentational 해야 합니다. 
 │   │   ├── common     # 프로젝트에서 사용되는 공통 컴포넌트를 정의합니다.
 │   │   └── ...service     #  도메인 서비스 단위 컴포넌트를 정의합니다.
+│   │   
 │   ├── core
 │   │   ├── apis     # api 요청 모음
 │   │   ├── config  # 환경별 config 설정 파일  
@@ -96,8 +132,10 @@ project
 │   │   ├── utils    # 각종 유틸 함수를 작성합니다.
 │   │   ├── hoc      # 공통 hoc 영역을 정의합니다.
 │   │   ├── hooks    # 공통 hook 파일을 정의 합니다.
-│   │   ├── contexts # 공통 contexts 파일을 정의 합니다.
-│   │   └── hooks    # hook 파일을 정의 합니다.
+│   │   │   ├── query        #  react-query에서 query관련 공통 훅을 정의합니다.
+│   │   │   └── mutation     #  react-query에서 mutation관련 공통 훅을 정의합니다.
+│   │   └── contexts # 공통 contexts 파일을 정의 합니다.
+│   │   
 │   ├── models       # 서비스에 필요한 공통 type 영역을 정의합니다. 폴더 컨벤션은 서비스 도메인 단위로 처리합니다.
 │   ├── pages  # next.js 에서 지원하는 페이지 entry 영역입니다.
 │   ├── static  # 이미지 파일 등 애셋을 정의합니다. 
@@ -106,12 +144,42 @@ project
 │   │   │   ├── index.ts        # store의 config 설정 및 store에서 사용되는 rootType을 지정합니다.
 │   │   │   └── ....modules     #폴더 컨벤션은 서비스 도메인 단위로 구성하고 redux-toolkit의 slice를 기본으로 사용합니다.
 │   │   └── index.ts
+│   │   
 │   └── styles // 스타일 영역을 정의합니다.
 │
 ├── .gitignore
 ├── package.json
 ├── ,,,,, (extra files)
 └── README.md
+```
+
+
+<br/>
+<br/>
+
+## unit테스트 작성
+
+### 컴포넌트 unit 테스트 작성 
+컴포넌트의 unit테스트는 해당 폴더 내에 `컴포넌트이름.spec.ts` 의 네이밍 방식으로 구성 합니다.
+
+
+```
+components
+└── todo
+    ├── TodoList
+    ├── TodoList.spec.ts
+    └── index.tsx
+```
+
+### util, 공통 hook 영역 unit 테스트 가이드 
+util 파일 및 hook 등의 공통 영역의 테스트 파일 작성은 해당 서비스 folder 레벨에서 `__test__` 폴더 생성후 그곳에서 `파일이름.spec.ts` 의 이름으로 생성하여 작성 합니다.
+
+```
+core
+└── util
+     ├── __test__
+     │   └── stringUtil.spec.ts
+     └── stringUtil.ts
 ```
 
 
@@ -176,6 +244,7 @@ TodoList
 ### 1. 함수표현식을 통한 구성
 컴포넌트 작성시 arrowFunction 이 아닌 **함수 표현식을 사용하여 컴포넌트를 작성**합니다. **컴포넌트 내부에서는 arrowFunction을 통해 함수를 구성**합니다.
 또한 export의 경우 hoc 등을 고려하여 최하단에서 export 하도록 작성 합니다.
+
 ```jsx
 function Todo() {
   
@@ -192,11 +261,11 @@ export default Todo;
 ### 2. 컴포넌트 props 구성
 컴포넌트의 props의 갯수가 2개를 기준으로 비구조화 할당을 다음과 같이 정의합니다. 또한 컴포넌트의 타입은 `IProps` 로 통일하여 처리합니다.
 
-```jsx
+```tsx
 /** props를 2개 사용 */
 interface IProps { test: string; test1: string }
+
 function Component({ test, test1 }: IProps) {}
- 
  
 /** props 변수를 2개 이상 사용 */
 function Component(props: IProps) { 
@@ -213,12 +282,10 @@ function Component(props: IProps) {
 ### 4. 컴포넌트 작성 순서
 컴포넌트의 상태, 각종 함수들, 라이프싸이클 등의 순서는 다음과 같은 순서대로 작성하도록 하여 컴포넌트를 읽는 전반적인 가독성을 상승시키도록 합니다.
 
-```jsx
+```tsx
 
 // 1. 컴포넌트 props 선언 사용하는 props 가 없다면 생략 가능 합니다.
-interface IProps {
-  
-}
+interface IProps {}
 
 function Component(props: IProps) {
   // 2. 컴포넌트 상태를 정의합니다. state or Reducer or ReduxState
@@ -257,7 +324,7 @@ TodoList
 ...
 import todoFunc from './todoFunc'; // 컴포넌트에 담아두기에 너무 큰 영역이라면 해당 컴포넌트depth에서 파일을 생성해 import ~!
 
-interface IProps {  }
+interface IProps {}
 
 function TodoList(props: IProps) {
   const [ state, setState ] = useState('');
@@ -369,8 +436,8 @@ redux의 설정파일 및 타입에 대한 위치는 store 폴더의 index.ts �
 ```ts
 import reducer from './modules';
 import thunk from 'redux-thunk';
-import { LayoutState } from '@store/modules/Layout';
-import { AccountListState } from '@store/modules/AccountList';
+import { ILayoutState } from '@store/modules/Layout';
+import { IAccountListState } from '@store/modules/AccountList';
 
 // 설정 파일 
 const initStore = () => {
@@ -381,9 +448,9 @@ const initStore = () => {
 };
 
 // redux 타입 정의
-export type RootState = {
-  layout: LayoutState;
-  accountList: AccountListState;
+export interface IRootState {
+  layout: ILayoutState;
+  accountList: IAccountListState;
 };
 
 export default initStore;
@@ -394,7 +461,7 @@ export default initStore;
 ```tsx
 
 function Component(){
-  const XXX = useSelector((root: RootState) => root.layout);
+  const XXX = useSelector((root: IRootState) => root.layout);
   ...
 }
 
@@ -416,12 +483,12 @@ export const getTodo = createAsyncThunk(
 });
 
 // 3. 스토어 타입을 정의합니다. xxxState의 네이밍으로 통일하여 구성합니다.
-export type TodoState = {
+export interface ITodoState = {
   todo: string;
 }
 
 // 4. reducer 초기값을 정의합니다.
-const initialState: TodoState = {
+const initialState: ITodoState = {
   todo: ''
 };
 
@@ -440,3 +507,6 @@ export default createSlice({
 
 ## 네트워크 비동기 처리는 apis에서만 작성 합니다. 
 네트워크 비동기에 대한 모든 처리는 **관심사의 분리, 재사용성증대를 위해 apis 폴더 내부에서 구성**하도록 합니다. 이때 폴더 구조는 각 서비스 도메인 단위로 생성하여 api 를 생성하도록 합니다. `react-query`, `redux`, `components` 등에서 처리하는 모든 네트워크 호출은 해당 apis 위치에서 import 하여 가져오도록 합니다. 또한 **apis 의 함수들에는 최대한 비즈니스 로직은 제외하고 비동기의 요청 및 응답만 처리**하도록 작성합니다.(재사용성 증대를 위해)
+
+추가적인 sharing 보상의 경우 조직장 재량을 통해 개인에게 sharing 되는데 이때 각 개인들에게 보상시 mix, max 의 비율이 존재하는지가 궁금합니다. 
+보상에 있어 min, max 비율이 정해져 있는건 없고 오로지 조직장의 선택을 
