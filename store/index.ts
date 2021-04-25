@@ -1,19 +1,16 @@
 import thunk from 'redux-thunk';
 import { configureStore } from '@reduxjs/toolkit';
+import todo from './todo';
 
-import todo, { ITodoState } from './todo';
 
-const initStore = () => {
-    return configureStore({
-        reducer: {
-          todo: todo.reducer,
-        },
-        middleware: [thunk]
-    });
-};
+const store = configureStore({
+    reducer: {
+        todo: todo.reducer,
+    },
+    middleware: [thunk]
+});
 
-export interface IRootState {
-    todo: ITodoState;
-}
+// redux 타입 정의
+export type RootState = ReturnType<typeof store.getState>
 
-export default initStore;
+export default store

@@ -1,13 +1,13 @@
 import Head from 'next/head'
 import { useDispatch, useSelector } from 'react-redux';
 import styles from '../styles/Home.module.css'
-import { IRootState } from '../store';
+import { RootState } from '../store';
 import { useEffect } from 'react';
 import { getTodoList } from '../store/todo';
 import TodoDetail from '../components/todo/TodoDetail';
 
 function Home() {
-  const todoListState = useSelector((root: IRootState) => root.todo.todoList);
+  const todoListState = useSelector((root: RootState) => root.todo.todoList);
   const dispatch = useDispatch();
 
   useEffect(() =>{
