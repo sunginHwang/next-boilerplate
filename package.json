@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev --port 4005",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "unit-test": "jest"
   },
   "dependencies": {
     "axios": "0.21.1",
@@ -30,6 +31,8 @@
     "@types/lodash-es": "4.17.4",
     "@types/react": "17.0.3",
     "@types/react-redux": "7.1.16",
+    "jest-watch-typeahead": "0.6.3",
+    "babel-jest": "26.6.3",
     "typescript": "4.2.4"
   }
 }
