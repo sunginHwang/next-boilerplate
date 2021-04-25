@@ -483,7 +483,7 @@ export const getTodo = createAsyncThunk(
 });
 
 // 3. 스토어 타입을 정의합니다. xxxState의 네이밍으로 통일하여 구성합니다.
-export interface ITodoState = {
+export interface ITodoState {
   todo: string;
 }
 
@@ -504,6 +504,43 @@ export default createSlice({
 
 <br/>
 <br/>
+
+### redux 의 비동기 통신데이터 규격
+redux에서 비동기를 처리하기 위해 `createAsyncThunk` 를 사용하여 처리되는 데이터는 로딩 및 에러 처리를 위해 한개의 공통 타입을 정의합니다.
+
+```ts
+export interface IAsyncState<T> {
+    loading: boolean;
+    data: T;
+    error?: any;
+}
+
+export interface ITodoState {
+  todoList: IAsyncState<ITodo[]>; // 비동기 데이터 타입 wrap
+}
+
+const initialState: ITodoState = {
+  todoList: {
+    loading: false,
+    data: [],
+  },
+};
+
+const todoSlice = createSlice({
+  name: 'todo',
+  initialState,
+  reducers: {},
+  extraReducers: {
+    [getTodoList.pending.type]: (state) => {
+       state.todoList.loading = true; //로딩 상태 정의
+    },
+    [getTodoList.fulfilled.type]: (state, action: PayloadAction<ITodo[]>) => {
+      state.todoList.loading = false;  //로딩 완료 상태 정의
+      state.todoList.data = action.payload;  //데이터 추가
+    },
+  },
+});
+``` 
 
 ## 네트워크 비동기 처리는 apis에서만 작성 합니다. 
 네트워크 비동기에 대한 모든 처리는 **관심사의 분리, 재사용성증대를 위해 apis 폴더 내부에서 구성**하도록 합니다. 이때 폴더 구조는 각 서비스 도메인 단위로 생성하여 api 를 생성하도록 합니다. `react-query`, `redux`, `components` 등에서 처리하는 모든 네트워크 호출은 해당 apis 위치에서 import 하여 가져오도록 합니다. 또한 **apis 의 함수들에는 최대한 비즈니스 로직은 제외하고 비동기의 요청 및 응답만 처리**하도록 작성합니다.(재사용성 증대를 위해)
