@@ -40,8 +40,22 @@
     "eslint-plugin-prettier": "3.4.0",
     "eslint-plugin-react": "7.23.2",
     "eslint-plugin-react-hooks": "1.7.0",
+    "husky": "6.0.0",
     "jest-watch-typeahead": "0.6.3",
+    "lint-staged": "10.5.4",
     "prettier": "2.2.1",
     "typescript": "4.2.4"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
