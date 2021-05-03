@@ -15,14 +15,15 @@
 
 import { useState, useCallback } from 'react';
 
-
 function useInput(initValue: string = '') {
-    const [value, setValue] = useState<string>(initValue);
+  const [value, setValue] = useState<string>(initValue);
 
-    const onChange = useCallback(e => setValue(e.target.value), [value]);
-    const onReset = useCallback(() => { setValue(initValue) }, []);
+  const onChange = useCallback(e => setValue(e.target.value), [value]);
+  const onReset = useCallback(() => {
+    setValue(initValue);
+  }, []);
 
-    return [value, onChange, onReset];
+  return [value, onChange, onReset];
 }
 
 export default useInput;

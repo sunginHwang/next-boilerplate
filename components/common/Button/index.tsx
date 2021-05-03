@@ -3,7 +3,7 @@ interface IProps {
 }
 
 function Button({ text }: IProps) {
-  return <button>{text}</button>
+  return <button>{text}</button>;
 }
 
 export default Button;

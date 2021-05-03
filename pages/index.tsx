@@ -1,6 +1,6 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.css';
 import { RootState } from '../store';
 import { useEffect } from 'react';
 import { getTodoList } from '../store/todo';
@@ -10,7 +10,7 @@ function Home() {
   const todoListState = useSelector((root: RootState) => root.todo.todoList);
   const dispatch = useDispatch();
 
-  useEffect(() =>{
+  useEffect(() => {
     dispatch(getTodoList());
   }, []);
 
@@ -23,15 +23,16 @@ function Home() {
       <main className={styles.main}>
         <h2>redux 컴포넌트 샘플</h2>
         <div className={styles.grid}>
-          { todoListState.loading && <div>로딩중 입니다.</div>}
-          { !todoListState.loading && todoListState.data.map((todo, index) => {
-            return (
+          {todoListState.loading && <div>로딩중 입니다.</div>}
+          {!todoListState.loading &&
+            todoListState.data.map((todo, index) => {
+              return (
                 <div className={styles.card} key={index}>
                   <h3>{todo.title}</h3>
                   <p>{todo.content}</p>
                 </div>
-            )
-          })}
+              );
+            })}
         </div>
         <section>
           <h2>useQuery 컴포넌트 샘플</h2>
@@ -39,7 +40,7 @@ function Home() {
         </section>
       </main>
     </div>
-  )
+  );
 }
 
 export default Home;
