@@ -386,7 +386,7 @@ render 되는 영역이 한줄이라면 괄호를 사용하지 않습니다. 여
 #### singleLine
 ```jsx
 
-// Bad
+// Good
 return <div>와다다다</div>;
  
 ```
@@ -434,24 +434,21 @@ redux는 최상위 store 파일에 각 서비스 도메인 단위로 redux파일
 redux의 설정파일 및 타입에 대한 위치는 store 폴더의 index.ts 에 구성합니다.
 
 ```ts
-import reducer from './modules';
 import thunk from 'redux-thunk';
-import { ILayoutState } from '@store/modules/Layout';
-import { IAccountListState } from '@store/modules/AccountList';
+import { configureStore } from '@reduxjs/toolkit';
+import { todoSlice } from '@store/modules/todo';
 
 // 설정 파일 
-const initStore = () => {
-  return configureStore({
-    reducer,
+const store = configureStore({
+    reducer: {
+        todo: todoSlice.reducer,
+    },
     middleware: [thunk]
-  });
-};
+});
+
 
 // redux 타입 정의
-export interface IRootState {
-  layout: ILayoutState;
-  accountList: IAccountListState;
-};
+export type RootState = ReturnType<typeof store.getState>
 
 export default initStore;
 
