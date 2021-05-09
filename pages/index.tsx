@@ -1,12 +1,12 @@
 import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import styles from '../styles/Home.module.css';
 import { RootState } from '../store';
 import { getTodoList } from '../store/todo';
 import TodoDetail from '../components/todo/TodoDetail';
 
-function Home() {
+function Home(): ReactElement {
   const todoListState = useSelector((root: RootState) => root.todo.todoList);
   const dispatch = useDispatch();
 
@@ -15,10 +15,10 @@ function Home() {
     console.log(a);
   };
 
-  const lukeSkywalker = 'Luke Skywalker';
+  const lukeSkywalker = 'Luke Skywalk1212er';
 
   const obj = {
-    lukeSkywalker: lukeSkywalker,
+    lukeSkywalker,
   };
 
   useEffect(() => {
