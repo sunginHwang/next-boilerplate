@@ -6,7 +6,8 @@
     "dev": "next dev --port 4005",
     "build": "next build",
     "start": "next start",
-    "unit-test": "jest"
+    "unit-test": "jest",
+    "lint": "eslint ."
   },
   "dependencies": {
     "axios": "0.21.1",
@@ -31,6 +32,8 @@
     "@types/lodash-es": "4.17.4",
     "@types/react": "17.0.3",
     "@types/react-redux": "7.1.16",
+    "@typescript-eslint/eslint-plugin": "4.22.1",
+    "@typescript-eslint/parser": "4.22.1",
     "babel-jest": "26.6.3",
     "eslint": "7.25.0",
     "eslint-config-airbnb": "18.2.1",
