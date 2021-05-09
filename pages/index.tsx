@@ -1,14 +1,25 @@
 import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import styles from '../styles/Home.module.css';
 import { RootState } from '../store';
-import { useEffect } from 'react';
 import { getTodoList } from '../store/todo';
 import TodoDetail from '../components/todo/TodoDetail';
 
 function Home() {
   const todoListState = useSelector((root: RootState) => root.todo.todoList);
   const dispatch = useDispatch();
+
+  // eslint testFunc
+  const eslintTestFunc = a => {
+    console.log(a);
+  };
+
+  const lukeSkywalker = 'Luke Skywalker';
+
+  const obj = {
+    lukeSkywalker: lukeSkywalker,
+  };
 
   useEffect(() => {
     dispatch(getTodoList());
