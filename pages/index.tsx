@@ -15,7 +15,7 @@ function Home(): ReactElement {
     console.log(a);
   };
 
-  const lukeSkywalker = 'Luke Skywalk1212er';
+  const lukeSkywalker = 'Luke Skywalk1212er3444';
 
   const obj = {
     lukeSkywalker,
