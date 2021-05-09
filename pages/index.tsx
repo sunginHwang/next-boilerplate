@@ -1,25 +1,14 @@
 import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
-import { ReactElement, useEffect } from 'react';
+import { useEffect } from 'react';
 import styles from '../styles/Home.module.css';
 import { RootState } from '../store';
 import { getTodoList } from '../store/todo';
-import TodoDetail from '../components/todo/TodoDetail';
+import TodoDetail from '../components/services/todo/TodoDetail';
 
-function Home(): ReactElement {
+function Home() {
   const todoListState = useSelector((root: RootState) => root.todo.todoList);
   const dispatch = useDispatch();
-
-  // eslint testFunc
-  const eslintTestFunc = a => {
-    console.log(a);
-  };
-
-  const lukeSkywalker = 'Luke Skywalk1212er3444';
-
-  const obj = {
-    lukeSkywalker,
-  };
 
   useEffect(() => {
     dispatch(getTodoList());
@@ -29,16 +18,15 @@ function Home(): ReactElement {
     <div className={styles.container}>
       <Head>
         <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
         <h2>redux 컴포넌트 샘플</h2>
         <div className={styles.grid}>
           {todoListState.loading && <div>로딩중 입니다.</div>}
           {!todoListState.loading &&
-            todoListState.data.map((todo, index) => {
+            todoListState.data.map(todo => {
               return (
-                <div className={styles.card} key={index}>
+                <div className={styles.card} key={todo.id}>
                   <h3>{todo.title}</h3>
                   <p>{todo.content}</p>
                 </div>

@@ -3,7 +3,11 @@ interface IProps {
 }
 
 function Button({ text }: IProps) {
-  return <button>{text}</button>;
+  return (
+    <button type="button" aria-label="Save">
+      <span>{text}</span>
+    </button>
+  );
 }
 
 export default Button;

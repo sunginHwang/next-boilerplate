@@ -119,7 +119,7 @@ project
 │   │   ├── atoms         # 최소단위의 재사용성이 강한 기본 컴포넌트 영역입니다. presentational 해야 합니다.
 │   │   ├── molecules  # atom을 조합한 컴포넌트 영역입니다. presentational 해야 합니다. 
 │   │   ├── common     # 프로젝트에서 사용되는 공통 컴포넌트를 정의합니다.
-│   │   └── ...service     #  도메인 서비스 단위 컴포넌트를 정의합니다.
+│   │   └── services     #  도메인 서비스 단위 컴포넌트를 정의합니다.
 │   │   
 │   ├── core
 │   │   ├── apis     # api 요청 모음
@@ -193,20 +193,21 @@ components
 ├── atoms
 ├── molecules
 ├── common
-├── todo
-│   ├── TodoList
-│   │   ├── TodoList.spec.ts
-│   │   └── index.tsx
-│   └── TodoListItem
-│       ├── options.ts
-│       └── index.tsx
+└── service
+    └── todo
+         ├── TodoList
+         │   └── TodoList.spec.ts
+         │   └── index.tsx
+         └── TodoListItem
+             ├── options.ts
+             └── index.tsx
 ```
 
 
 해당 프로젝트에서는 hook 을 최대한 활용해서 프로젝트를 진행하기 때문에 기존의 **`presentational and container pattern` 을 사용한 containers, components root 폴더 구조는 삭제**합니다.
 
 해당 보일러플레이트 구조에서 **모든 컴포넌트는 components 의 folder 내부에서 구성**합니다. (page 영역 제외)
-해당 컴포넌트 구조는 **atomic의 디자인을 따르지만 관리유지 측면에서 `atoms`와 `molecules` 까지만 공통영역**으로 나누고 나머지는 각 서비스 비즈니스의 영역으로 처리하도록 합니다.
+해당 컴포넌트 구조는 **atomic의 디자인을 따르지만 관리유지 측면에서 `atoms`와 `molecules` 까지만 공통영역**으로 나누고 각 서비스 도메인 영역은 `services` 폴더 내부에 서비스 단위로 구성하여 비즈니스의 영역으로 처리하도록 합니다.
 
 > atomicDesign: https://medium.com/@inthewalter/atomic-design-for-react-514660f93ba
 
@@ -273,7 +274,7 @@ function Component(props: IProps) {
 }
 ```
 
-### 3. 컴포넌트의 타입(인터페이스) 를 wrap 해야 하는 경우
+### 3. 컴포넌트의 타입(인터페이스) 를 wrap 해야 하는 경우 - 수정필요 (type이 아닌 interface의 룰로 컴포넌트 props을 사용할 예정이기 때문)
 컴포넌트의 타입을 래핑 해야하는 경우 별도로 export 하는 것이 아닌 다음과 같이 util 함수를 작성하여 wrap 해서 사용 하도록 합니다.
  > 참조 article : https://javascript.plainenglish.io/a-cleaner-api-for-react-ts-components-47d0704a508c
 
@@ -414,7 +415,16 @@ return (
 > key에 index를 넣어서 안되는 이유: https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318
 
 * **배열의 각 item별로 수정, 삭제, 추가 등의 기능이 없는 단순 렌더링만 담당**하는 경우
-* 정렬 혹은 필터 가 없는 경우 
+* 정렬 혹은 필터 가 없는 경우
+
+되도록이면 위의 경우가 아니라도 uniq 의 값이 존재한다면 index를 사용하지 않기를 권해드립니다. 정말 사용해야 할 경우는
+eslint 영역을 해당 부분만 해제하여 사용하도록 합니다.
+```jsx
+return (
+  // eslint-disable-next-line react/no-array-index-key
+  {list.map((item, index) => <p key={index}>{item}</p>)}
+)
+``` 
 
 
 ### 10. form 에 대한 처리는 되도록 react-form-hook을 사용하도록 합니다.

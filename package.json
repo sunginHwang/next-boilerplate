@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@reduxjs/toolkit": "1.5.1",
     "axios": "0.21.1",
     "date-fns": "2.21.1",
     "immer": "9.0.1",
@@ -20,9 +21,9 @@
     "react-dom": "17.0.2",
     "react-hook-form": "7.2.3",
     "react-query": "3.13.11",
-    "@reduxjs/toolkit": "1.5.1",
     "react-redux": "7.2.3",
-    "redux": "4.0.5"
+    "redux": "4.0.5",
+    "redux-thunk": "2.3.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.12.0",

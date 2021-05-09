@@ -1,4 +1,4 @@
-import { render } from '../../../core/utils/testUtil';
+import { render } from '@testing-library/react';
 import Button from './index';
 
 describe('Button', () => {

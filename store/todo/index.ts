@@ -10,7 +10,7 @@ const name = 'todo';
 export const getTodoList = createAsyncThunk(
   `${name}/getTodoList`, // name은 reducer이름  + / + 함수명으로 구성합니다.
   async () => {
-    return await fetchTodoList();
+    return fetchTodoList();
   },
 );
 

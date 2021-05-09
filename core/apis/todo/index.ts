@@ -1,7 +1,7 @@
 import ITodo from '../../../models/todo/ITodo';
 import delay from '../../utils/delay';
 
-export async function fetchTodoList() {
+export async function fetchTodoList(): Promise<ITodo[]> {
   await delay(700);
   return [
     {
@@ -17,7 +17,7 @@ export async function fetchTodoList() {
   ] as ITodo[];
 }
 
-export async function fetchTodo(id: number) {
+export async function fetchTodo(id: number): Promise<ITodo> {
   await delay(700);
   return { id, title: `${id} title`, content: `${id} content` } as ITodo;
 }

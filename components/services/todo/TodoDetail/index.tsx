@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
-import { fetchTodo } from '../../../core/apis/todo';
-import ITodo from '../../../models/todo/ITodo';
+
+import { fetchTodo } from '../../../../core/apis/todo';
+import ITodo from '../../../../models/todo/ITodo';
 
 const initTodo: ITodo = { id: -1, content: '', title: '' };
 
