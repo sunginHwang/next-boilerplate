@@ -274,13 +274,7 @@ function Component(props: IProps) {
 }
 ```
 
-### 3. 컴포넌트의 타입(인터페이스) 를 wrap 해야 하는 경우 - 수정필요 (type이 아닌 interface의 룰로 컴포넌트 props을 사용할 예정이기 때문)
-컴포넌트의 타입을 래핑 해야하는 경우 별도로 export 하는 것이 아닌 다음과 같이 util 함수를 작성하여 wrap 해서 사용 하도록 합니다.
- > 참조 article : https://javascript.plainenglish.io/a-cleaner-api-for-react-ts-components-47d0704a508c
-
-![](https://images.velog.io/images/gommpo/post/26c39a0b-c8a1-4d73-9ca7-4cb338aedb27/image.png)
-
-### 4. 컴포넌트 작성 순서
+### 3. 컴포넌트 작성 순서
 컴포넌트의 상태, 각종 함수들, 라이프싸이클 등의 순서는 다음과 같은 순서대로 작성하도록 하여 컴포넌트를 읽는 전반적인 가독성을 상승시키도록 합니다.
 
 ```tsx
@@ -310,7 +304,7 @@ function FunctionXXX() {
 export default Component;
 ```
 
-### 5. 컴포넌트 내부 함수가 많은 경우 처리
+### 4. 컴포넌트 내부 함수가 많은 경우 처리
 컴포넌트내부에서 컴포넌트의 **state가 사용되지 않는 함수들의 경우 해당 컴포넌트의 export 상단부에서 작성하여 컴포넌트의 복잡도를 최소화** 합니다.
 or 함수의 line이 길거나 함수가 많은 경우 해당 컴포넌트 folder에서 ts파일을 추가로 구성하여 import 하는 방식으로 처리하도록 합니다.
 
@@ -341,7 +335,7 @@ export default TodoList;
 ```
 
 
-### 6. 컴포넌트 안에서 jsx 정의하는 경우 접두사 render 사용
+### 5. 컴포넌트 안에서 jsx 정의하는 경우 접두사 render 사용
 컴포넌트 내부에서 jsx영역을 추가 정의하는 변수에는 접두사로 `render`를 사용하여 일관된 네이밍을 유지합니다.
 ```tsx
 function TodoItem({title, content}: IProps) {
@@ -357,7 +351,7 @@ function TodoItem({title, content}: IProps) {
 };
 ```
 
-### 7. 컴포넌트 종속 hook의 위치 선정
+### 6. 컴포넌트 종속 hook의 위치 선정
 한 컴포넌트 안에서 여러 관심사가 있는 경우 이를 관심사 별로 hook으로 만들어 해당 컴포넌트 내부에 파일을 생성하여 이를 import 하여 사용합니다.
 ```tsx
 /*
@@ -381,7 +375,7 @@ function TodoList(props: IProps) {
 };
 ```
 
-### 8. render 영역 inline 처리 
+### 7. render 영역 inline 처리 
 render 되는 영역이 한줄이라면 괄호를 사용하지 않습니다. 여러줄인 경우 다음과 같이 작성 합니다.
 
 #### singleLine
@@ -409,7 +403,7 @@ return (
 )
 ```
 
-### 9. loop 구성시 key에 배열의 index는 가급적 피해주세요.
+### 8. loop 구성시 key에 배열의 index는 가급적 피해주세요.
 배열요소를 render시 map함수를 통해 랜더하게 되는데 이때 **index 를 key 요소로 사용되는 것은 다음 조건을 만족할 경우만 허용**합니다.
 
 > key에 index를 넣어서 안되는 이유: https://robinpokorny.medium.com/index-as-a-key-is-an-anti-pattern-e0349aece318
@@ -427,7 +421,7 @@ return (
 ``` 
 
 
-### 10. form 에 대한 처리는 되도록 react-form-hook을 사용하도록 합니다.
+### 9. form 에 대한 처리는 되도록 react-form-hook을 사용하도록 합니다.
 form의 처리는 **유효성검사, state관리 등 form 처리는 생각보다 많은 cost를 유발하는 영역** 입니다. 이러한 부분에 있어 `react-form-hook` 은 좋은 대안이 될 수 있습니다.
  `uncontrolledComponent`이기때문에 **성능상의 이점과 프로젝트 코드 컨벤션의 통일화**를 위해 form 에 대한 처리는 특별한 상황이 아니라면 `react-form-hook` 을 사용하도록 합니다.
  각종 예시는 다음 링크를 참고히시면 됩니다.
